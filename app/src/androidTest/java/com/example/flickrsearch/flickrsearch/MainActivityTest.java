@@ -32,7 +32,7 @@ import static android.support.test.internal.runner.junit4.statement.UiThreadStat
  * Copyright (c) 2018. All rights reserved.
  */
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest1 {
+public class MainActivityTest {
     private SearchImageDataLoader mSearchDataLoader;
     private SearchImageRepository mSearchImageRepository;
 
@@ -47,13 +47,14 @@ public class MainActivityTest1 {
     }
 
     @Test
-    public void test_searchView() {
+    public void test_searchView() throws InterruptedException {
         final List<Pair<String, ImageLoader>> list = new ArrayList<>();
         list.add(new Pair<String, ImageLoader>("test", null));
 
         Mockito.doReturn(list).when(mSearchImageRepository).getImageDataList();
         onView(withId(R.id.search_box)).perform(closeSoftKeyboard(), typeText("test"));
-        Mockito.doNothing().when(mSearchImageRepository).searchImages("test");
+        wait(5000);
+        //Mockito.doNothing().when(mSearchImageRepository).searchImages("test");
         //onView(withId(R.id.search_box)).perform(click());
         onView(withText(String.format(mRule.getActivity().getString(R.string.result_string), "test"))).check(matches(isDisplayed()));
     }
