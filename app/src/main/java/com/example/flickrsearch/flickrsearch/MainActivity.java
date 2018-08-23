@@ -21,7 +21,8 @@ import com.android.volley.toolbox.ImageLoader;
 import java.util.List;
 
 /**
- *
+ * MainActivity is the UI controller,
+ * communicates with the {@link SearchImageRepository} to get the data source, based on the search query string
  */
 public class MainActivity extends AppCompatActivity implements Observer, SearchView.OnQueryTextListener {
 

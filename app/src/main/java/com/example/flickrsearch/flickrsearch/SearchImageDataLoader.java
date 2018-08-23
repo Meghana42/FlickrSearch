@@ -1,4 +1,8 @@
 package com.example.flickrsearch.flickrsearch;
+/**
+ * Created by Meghana Mokashi
+ * Copyright (c) 2018. All rights reserved.
+ */
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -22,23 +26,25 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- * Created by Meghana Mokashi
- * Copyright (c) 2018. All rights reserved.
+ * The class is responsible to load data using REST API, based on the query string
+ * On change of data, notifies the observers {@link Observer#notifyDataSetChanged(String)}
  */
 public class SearchImageDataLoader {
 
     private static final String QUERY_URL = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=3e7cc266ae2b0e0d78e279ce8e361736& format=json&nojsoncallback=1&safe_search=1&text=";
 
     private String mQueryParam;
-    private static SearchImageDataLoader mInstance;
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
-    private List<Pair<String, ImageLoader>> mImageLoaderList;
-    private List<Observer> mObservers = new ArrayList<>();
+    @VisibleForTesting
+    List<Pair<String, ImageLoader>> mImageLoaderList;
+    @VisibleForTesting
+    List<Observer> mObservers = new ArrayList<>();
 
     SearchImageDataLoader(@NonNull Context context, @NonNull Observer observer) {
-        mRequestQueue = Volley.newRequestQueue(context);
+        mRequestQueue = Provider.get().getRequestQueue(context);
 
         mImageLoader = new ImageLoader(mRequestQueue,
                 new ImageLoader.ImageCache() {

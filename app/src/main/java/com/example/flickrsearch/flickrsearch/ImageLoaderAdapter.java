@@ -1,5 +1,8 @@
 package com.example.flickrsearch.flickrsearch;
-
+/**
+ * Created by Meghana Mokashi
+ * Copyright (c) 2018. All rights reserved.
+ */
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -14,8 +17,9 @@ import com.android.volley.toolbox.NetworkImageView;
 import java.util.List;
 
 /**
- * Created by Meghana Mokashi
- * Copyright (c) 2018. All rights reserved.
+ * ImageLoaderAdapter loads the images to the recyclerview
+ * On change of data source {@link MainActivity#notifyDataSetChanged(String)} invokes {@link #setImageLoaderList(List)},
+ * which is responsible to refresh the recyclerview data
  */
 public class ImageLoaderAdapter extends RecyclerView.Adapter<ImageLoaderAdapter.ViewHolder> {
     private Context mContext;
