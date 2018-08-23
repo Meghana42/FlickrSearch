@@ -39,20 +39,42 @@ public class SearchImageDataLoaderTest {
     private boolean mIsDataSetChanged = false;
     private SearchImageDataLoader mSearchImageDataLoader;
 
+    /**
+     * Test data loader is initialized and observers are attached
+     */
     @Test
     public void test_dataLoader() {
+        //-------Given-------------------
+
         Provider.set(new MockProvider());
+
+        //-------When-------------------
+
         mSearchImageDataLoader = new SearchImageDataLoader(mContext, mObserver);
+
+        //-------Then-------------------
+
         assertTrue(mSearchImageDataLoader.mObservers.size() == 1);
     }
 
+    /**
+     * Test after clearing data loader - observers are notified
+     */
     @Test
     public void test_clearLoader() {
+        //-------Given-------------------
+
         Provider.set(new MockProvider());
         assertFalse(mIsDataSetChanged);
         mSearchImageDataLoader = new SearchImageDataLoader(mContext, mObserver);
+
+        //-------When-------------------
+
         mSearchImageDataLoader.mImageLoaderList.add(new Pair<String, ImageLoader>("test", null));
         mSearchImageDataLoader.clearLoader();
+
+        //-------Then-------------------
+
         assertTrue(mSearchImageDataLoader.mImageLoaderList.size() == 0);
         assertTrue(mIsDataSetChanged);
     }
