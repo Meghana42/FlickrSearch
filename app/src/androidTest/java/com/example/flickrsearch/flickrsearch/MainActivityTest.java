@@ -1,86 +1,64 @@
 package com.example.flickrsearch.flickrsearch;
 
+/**
+ * Created by Meghana Mokashi
+ * Copyright (c) 2018. All rights reserved.
+ */
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Pair;
 
-import com.android.volley.toolbox.ImageLoader;
-
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static android.support.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread;
+import static org.hamcrest.CoreMatchers.not;
 
-/**
- * Created by Meghana Mokashi
- * Copyright (c) 2018. All rights reserved.
- */
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
     private SearchImageDataLoader mSearchDataLoader;
-    private SearchImageRepository mSearchImageRepository;
-
     private ActivityTestRule<MainActivity> mRule = new ActivityTestRule<>(MainActivity.class);
 
     @Before
     public void setUp() {
         Provider.set(new MockProvider());
-
         mRule.launchActivity(null);
         mRule.getActivity();
     }
 
     @Test
-    public void test_searchView() throws InterruptedException {
-        final List<Pair<String, ImageLoader>> list = new ArrayList<>();
-        list.add(new Pair<String, ImageLoader>("test", null));
+    public void test_onListUpdated() throws Throwable {
+        //-----------When---------------------------
 
-        Mockito.doReturn(list).when(mSearchImageRepository).getImageDataList();
-        onView(withId(R.id.search_box)).perform(closeSoftKeyboard(), typeText("test"));
-        wait(5000);
-        //Mockito.doNothing().when(mSearchImageRepository).searchImages("test");
-        //onView(withId(R.id.search_box)).perform(click());
-        onView(withText(String.format(mRule.getActivity().getString(R.string.result_string), "test"))).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void test_notify() throws Throwable {
-        final List<Pair<String, ImageLoader>> list = new ArrayList<>();
-        list.add(new Pair<String, ImageLoader>("test", null));
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Mockito.doReturn(list).when(mSearchImageRepository).getImageDataList();
-                onView(withId(R.id.search_box)).perform(closeSoftKeyboard(), typeText("test"));
-                onView(withId(R.id.search_box)).perform(click());
-
-                //mRule.getActivity().notifyDataSetChanged("test");
-                onView(withText(String.format(mRule.getActivity().getString(R.string.result_string), "test"))).check(matches(isDisplayed()));
+                mRule.getActivity().onListUpdated("test");
             }
         });
 
+        //-----------Then---------------------------
+
+        onView(withId(R.id.progress_bar_layout)).check(matches(not(isDisplayed())));
+        onView(withId(R.id.result_text)).check(matches(isDisplayed()));
     }
 
     class MockProvider extends Provider {
 
         @Override
-        SearchImageDataLoader getSearchImageDataLoader(@NonNull Context context, @NonNull Observer observer) {
+        SearchImageDataLoader getSearchImageDataLoader(@NonNull Context context) {
             if (mSearchDataLoader == null) {
                 mSearchDataLoader = Mockito.mock(SearchImageDataLoader.class);
             }
@@ -88,12 +66,35 @@ public class MainActivityTest {
         }
 
         @Override
-        SearchImageRepository getSearchImageRepository(@NonNull Context context, @NonNull Observer observer) {
-            if (mSearchImageRepository == null) {
-                mSearchImageRepository = Mockito.mock(SearchImageRepository.class);
+        SearchImageRepository getSearchImageRepository(@NonNull Context context) {
+            try {
+                return new MockRepository(context);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-            return mSearchImageRepository;
+            return null;
         }
     }
 
+    class MockRepository extends SearchImageRepository {
+        final JSONObject mResult = new JSONObject();
+
+        MockRepository(@NonNull Context context) throws JSONException {
+            super(context);
+            mResult.put("farm", "farm");
+            mResult.put("server", "server");
+            mResult.put("id", "id");
+            mResult.put("secret", "secret");
+        }
+
+        @Override
+        void setListener(@NonNull ImageListListener listener) { }
+
+        @Override
+        public List<ImageDataHolder> getImageDataHolders() {
+            final List<ImageDataHolder> list = new ArrayList<>();
+            list.add(new ImageDataHolder(mResult));
+            return list;
+        }
+    }
 }

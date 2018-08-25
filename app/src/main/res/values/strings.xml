@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Flickr Search</string>
     <string name="result_string">Showing results for %s</string>
+    <string name="api_key">3e7cc266ae2b0e0d78e279ce8e361736</string>
+    <string name="query_url">https://api.flickr.com/services/rest/?method=flickr.photos.search&amp;api_key=%s&amp;format=json&amp;nojsoncallback=1&amp;safe_search=1&amp;text=%s</string>
+    <string name="processing_request">Processing request</string>
 </resources>
