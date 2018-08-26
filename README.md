@@ -6,6 +6,7 @@ Use Cases:
 
 User opens app, in search view enters the search string -> User should be shown the images in 3 column scrollable view
 User opens app, in search view enters the search string -> user scrolls the images -> new images should be loaded for the query
+
 User clicks on cross button of the search view ->  Search string should be cleared -> previous search list should be cleared
 
 
