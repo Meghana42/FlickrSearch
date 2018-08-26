@@ -5,14 +5,16 @@ package com.example.flickrsearch.flickrsearch;
  * Copyright (c) 2018. All rights reserved.
  */
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * ImageDataHolder holds the image data, constructs from the JSONObject
+ * ImageDataHolder constructs image data from the JSONObject
  */
 public class ImageDataHolder {
+    private static final String TAG = "ImageDataHolder";
     private String mFarm;
     private String mServer;
     private String mId;
@@ -25,7 +27,7 @@ public class ImageDataHolder {
             mId = result.getString("id");
             mSecret = result.getString("secret");
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.d(TAG, "JsonException");
         }
     }
 

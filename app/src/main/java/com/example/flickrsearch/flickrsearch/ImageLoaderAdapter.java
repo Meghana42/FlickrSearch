@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ImageLoaderAdapter loads the images to the recyclerview
+ * ImageLoaderAdapter loads the images to the recycler view
  * On change of data source {@link MainActivity#onListUpdated(String)} invokes {@link #setImageHolderList(List)},
  * which is responsible to refresh the recycler view data
  */
@@ -78,8 +78,7 @@ public class ImageLoaderAdapter extends RecyclerView.Adapter<ImageLoaderAdapter.
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-
-        NetworkImageView mImageView;
+        private NetworkImageView mImageView;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);

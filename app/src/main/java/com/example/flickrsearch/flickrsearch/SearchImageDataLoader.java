@@ -3,9 +3,9 @@ package com.example.flickrsearch.flickrsearch;
  * Created by Meghana Mokashi
  * Copyright (c) 2018. All rights reserved.
  */
-
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.android.volley.Request;
@@ -13,7 +13,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +30,7 @@ public class SearchImageDataLoader {
     private RequestQueue mRequestQueue;
     private Context mContext;
     private List <ImageDataHolder> mImageDataHolders;
+    @Nullable
     private ImageListListener mListener;
 
     SearchImageDataLoader(@NonNull Context context) {
@@ -89,6 +89,7 @@ public class SearchImageDataLoader {
         mRequestQueue.cancelAll(mQueryParam);
     }
 
+    @NonNull
     List<ImageDataHolder> getImageDataHolders() {
         return mImageDataHolders;
     }
