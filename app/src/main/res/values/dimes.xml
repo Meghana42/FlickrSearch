@@ -3,5 +3,5 @@
     <dimen name="text_size">20sp</dimen>
     <dimen name="result_text_top_margin">24dp</dimen>
     <dimen name="result_text_left_margin">8dp</dimen>
-    <dimen name="recycler_view_top_margin">12dp</dimen>
+    <dimen name="recycler_view_margin">12dp</dimen>
 </resources>

@@ -42,14 +42,14 @@
             android:gravity="center"
             android:background="@android:color/transparent"
             android:text="@string/processing_request"
-            android:layout_marginLeft="12dp"
-            android:layout_marginStart="12dp" />
+            android:layout_marginLeft="@dimen/recycler_view_margin"
+            android:layout_marginStart="@dimen/recycler_view_margin" />
 
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/image_holder"
-        android:layout_marginTop="@dimen/recycler_view_top_margin"
+        android:layout_marginTop="@dimen/recycler_view_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
