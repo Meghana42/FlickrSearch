@@ -7,6 +7,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -26,6 +27,7 @@ import java.util.List;
  * On change of data, notifies the observers {@link ImageListListener#onListUpdated(String)}
  */
 public class SearchImageDataLoader {
+    private static final String TAG = "SearchImageDataLoader";
     private String mQueryParam;
     private RequestQueue mRequestQueue;
     private Context mContext;
@@ -43,7 +45,7 @@ public class SearchImageDataLoader {
         mListener = imageListListener;
     }
 
-    String constructQueryUrl(@NonNull final String queryParam) {
+    private String constructQueryUrl(@NonNull final String queryParam) {
         return String.format(mContext.getResources().getString(R.string.query_url),
                 mContext.getResources().getString(R.string.api_key), queryParam);
     }
@@ -71,7 +73,7 @@ public class SearchImageDataLoader {
                                 mListener.onListUpdated(queryParam);
                             }
                         } catch (JSONException e) {
-                            e.printStackTrace();
+                            Log.d(TAG, "JSONException");
                         }
                     }
                 }, new Response.ErrorListener() {
